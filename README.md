@@ -1,112 +1,190 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content=
-		"width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href=
-"https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-	crossorigin="anonymous">
-	<script src="app.js"></script>
-	<title>To Do List</title>
-</head>
-<body>
-	<header class="bg-success text-white p-5">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-12 col-md-12 col-sm-12">
-					<font face="Comic sans MS"
-						size="11" color="black">
-						<strong>ToDo List</strong>
-					</font>		
-				</div>
-			</div>
-		</div>
-</header>
-	<div class="container mt-3">
-		<h2>Add Items</h2>
-		<label id="lblsuccess" class="text-success"
-				style="display: none;">
-		</label>
-		<form id="addForm">
-			<div class="row">
-				<div class="col-lg-7 col-md-7 col-sm-7">
-					<input type="text" onkeyup="toggleButton(this, 'submit')"
-						class="form-control" id="item">
-				</div>
-				<div class="col-lg-5 col-md-5 col-sm-5">
-				<input type="submit" class="btn btn-dark"
-						id="submit" value="Submit" disabled>
-				</div>
-			</div>
-		</form>
-		<h3 class="mt-4">Tasks</h3>
-		<form id="addForm">
-			<ul class="list-group" id="items"></ul>
-		</form>
-	</div>
-</body>
-</html>
-window.onload = () => {
-	const form1 = document.querySelector("#addForm");
-	let items = document.getElementById("items");
-	let submit = document.getElementById("submit");
-	let editItem = null;
-	form1.addEventListener("submit", addItem);
-	items.addEventListener("click", removeItem);
-};
-function addItem(e) {
-	e.preventDefault();
+index.html
 
-	if (submit.value != "Submit") {
-		console.log("Hello");
-		editItem.target.parentNode.childNodes[0].data=document.getElementById("item").value;
-		submit.value = "Submit";
-		document.getElementById("item").value = "";
-		document.getElementById("lblsuccess").innerHTML= "Text edited successfully";
-		document.getElementById("lblsuccess").style.display = "block";
-		setTimeout(function() {
-			document.getElementById("lblsuccess").style.display = "none";
-		}, 3000);
-		return false;}
-	let newItem = document.getElementById("item").value;
-	if (newItem.trim() == "" || newItem.trim() == null)
-		return false;
-	else
-		document.getElementById("item").value = "";
-	let li = document.createElement("li");
-	li.className = "list-group-item";
-	let deleteButton = document.createElement("button");
-	deleteButton.className ="btn-danger btn btn-sm float-right delete";
-	deleteButton.appendChild(document.createTextNode("Delete"));
-	let editButton = document.createElement("button");
-	editButton.className ="btn-success btn btn-sm float-right edit"
-	editButton.appendChild(document.createTextNode("Edit"));
-	li.appendChild(document.createTextNode(newItem));
-	li.appendChild(deleteButton);
-	li.appendChild(editButton);
-	items.appendChild(li);
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<link rel="stylesheet" href="styles.css">
+
+<title>Survey App</title>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Random Survey</h1>
+
+<form id="surveyForm">
+
+<div id="questionsContainer"></div>
+
+<button type="button" onclick="loadQuestions()">Start Survey</button>
+
+<button type="submit" id="submitSurvey" style="display:none;">Submit Survey</button>
+
+</form>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+
+</html>
+body {
+
+ font-family: Arial, sans-serif;
+
+ background-color: #808080;
+
+ margin: 0;
+
+ display: flex;
+
+ justify-content: center;
+
+ align-items: center;
+
+ height: 100vh;
+
 }
-function removeItem(e) {
-e.preventDefault();
-	if (e.target.classList.contains("delete")) {
-		if (confirm("Are you Sure?")) {
-			let li = e.target.parentNode;
-			items.removeChild(li);
-			document.getElementById("lblsuccess").innerHTML
-				= "Text deleted successfully";
-			document.getElementById("lblsuccess").style.display = "block"
-			setTimeout(function() {
-				document.getElementById("lblsuccess").style.display = "none";
-			}, 3000);
-		}}
-	if (e.target.classList.contains("edit")) {
-		document.getElementById("item").value =
-			e.target.parentNode.childNodes[0].data;
-		submit.value = "EDIT";
-		editItem = e;
-	}}
-function toggleButton(ref, btnID) {
-	document.getElementById(btnID).disabled = false;
+
+.container {
+
+ text-align: center;
+
+ background-color: #7FFFD4;
+
+ padding: 20px;
+
+ border-radius: 8px;
+
+ box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
 }
+
+button {
+
+ margin: 10px;
+
+ padding: 8px 16px;
+
+ font-size: 16px;
+
+ cursor: pointer;
+
+}
+.input-container{
+
+margin-button: 30px;
+
+}
+
+.input-container label,
+
+.input-container input {
+
+margin-bottom: 10px;
+
+}
+const questions = [
+
+ "What is your favorite color?",
+
+ "How often do you exercise?",
+
+ "What's your preferred programming language?",
+
+ "Do you enjoy reading books?",
+
+ "What's your favorite type of music?",
+
+ "How many cups of coffee do you drink per day?",
+
+ "What's your favorite movie ?",
+
+ "Do you prefer summer or winter?",
+
+ "Are you a morning person?",
+
+ "What's your dream travel destination?"
+
+];
+
+const form = document.getElementById("surveyForm");
+
+const questionsContainer = document.getElementById("questionsContainer");
+
+const startSurveyButton = document.querySelector("button[onclick='loadQuestions()']");
+
+const submitSurveyButton = document.getElementById("submitSurvey");
+function loadQuestions() {
+
+ // Clear previous questions
+
+ questionsContainer.innerHTML = "";
+
+ // Shuffle questions to get a random set
+
+ const shuffledQuestions = questions.sort(() => Math.random() - 0.5);
+
+ // Display all questions with input fields
+
+ shuffledQuestions.forEach((question, index) => {
+
+ const inputContainer = document.createElement("div");
+
+ inputContainer.className = "input-container";
+
+ const inputLabel = document.createElement("label");
+
+ inputLabel.textContent = question;
+
+ const input = document.createElement("input");
+
+ input.type = "text";
+
+ input.name = `answer${index}`;
+
+ input.placeholder = "Your Answer";
+
+ inputContainer.appendChild(inputLabel);
+
+ inputContainer.appendChild(input);
+
+ questionsContainer.appendChild(inputContainer);
+
+ });
+
+ // Hide the 'Start Survey' button and show the 'Submit Survey' button
+startSurveyButton.style.display = "none";
+
+ submitSurveyButton.style.display = "block";
+
+}
+
+form.addEventListener("submit", function (event) {
+
+ event.preventDefault();
+
+ // You can handle the form submission here, e.g., send data to a server.
+
+ const answers = Array.from(document.querySelectorAll('input[type="text"]'))
+
+ .map(input => input.value);
+
+ if (answers.filter(answer => answer.trim() !== "").length === 5) {
+
+ alert("Survey submitted successfully!");
+
+ } else {
+
+ alert("Please provide answer for 5 questions.");
+
+ }
+
+})
