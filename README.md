@@ -1,152 +1,95 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 
-<html lang="en">
+<html lang=”en”> 
 
-<head>
+<head> 
 
- <meta charset="UTF-8">
+<meta charset=”UTF-8”> 
 
- <style>
+<meta name=”viewport” content=”width=device-width, initial-scale=1.0”> 
 
-body {
+<title>Leave Management System</title> 
 
- font-family: 'cursive', sans-serif;
+</head> 
 
- background-color: lightgreen;
+<body> 
 
- margin: 0;
+<h1>Leave Management System</h1> 
 
- padding: 0;
+<form id=”leaveForm”> 
 
- display: flex;
+<label for=”leaveType”>Leave Type:</label> 
 
- align-items: center;
+<select id=”leaveType” name=”leaveType”> 
 
- justify-content: center;
+<option value=”casual”>Casual Leave</option> 
 
- height: 100vh;
+<option value=”medical”>Medical Leave</option> 
 
-}
+<!—Add more leave types as needed  
 
-.container {
+</select>
+<label for=”startDate”>Start Date:</label> 
 
- max-width: 600px;
+<input type=”date” id=”startDate” name=”startDate” required> 
 
- background-color: #fff;
+<label for=”endDate”>End Date:</label> 
 
- padding: 20px;
-border-radius: 8px;
+<input type=”date” id=”endDate” name=”endDate” required> 
 
- box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+<label for=”reason”>Reason:</label> 
 
-}
+<textarea id=”reason” name=”reason” rows=”4” required></textarea> 
 
-.sell,
+<button type=”button” onclick=”applyLeave()”>Apply Leave</button> 
 
-.buy {
+</form> 
 
- margin-top: 20px;
+<div id=”leaveBalance”> 
 
-}
+<h2>Leave Balance</h2> 
 
-button {
+<p id=”casualLeave”>Casual Leave: 10 days</p> 
 
- background-color: #4caf50;
+<p id=”medicalLeave”>Medical Leave: 15 days</p> 
 
- color: #fff;
+<!—Display leave balances for other leave types  
 
- border: none;
+</div> 
 
- padding: 10px;
+<script> 
 
- cursor: pointer;
+Function applyLeave() { 
 
- border-radius: 4px;
+// Fetch values from form 
 
-}
+Const leaveType = document.getElementById(‘leaveType’).value; 
 
-button:hover {
+Const startDate = document.getElementById(‘startDate’).value; 
 
- background-color: #45a049;
+Const endDate = document.getElementById(‘endDate’).value; 
 
-}
+Const reason = document.getElementById(‘reason’).value;
+// Implement backend logic for leave application and update leave balance // 
 
- </style>
+For now, let’s just show an alert 
 
- <title>Buy and Sell App</title>
+Alert(`Leave application submitted:\nType: ${leaveType}\nStart Date: ${startDate}\nEnd 
 
-</head>
+Date: ${endDate}\nReason: ${reason}`); 
 
-<body>
+} 
 
- <div class="container">
+// Fetch leave balances from the backend and update the HTML 
 
- <h1>Buy and Sell App</h1>
+// For now, let’s assume some default values 
 
- <div class="sell">
-<h2>Sell</h2>
+Document.getElementById(‘casualLeave’).innerText = ‘Casual Leave: 10 days’; 
 
- <input type="text" id="sellInput" placeholder="Enter product to sell">
+Document.getElementById(‘medicalLeave’).innerText = ‘Medical Leave: 15 days’; 
 
- <button onclick="sellProduct()">Sell</button>
+</script> 
 
- <ul id="sellList"></ul>
-
- </div>
-
- <div class="buy">
-
- <h2>Buy </h2>
-
- <ul id="buyList"></ul>
-
- </div>
-
- </div>
-
- <script>
-
- // script.js
-
-function sellProduct() {
-
- const sellInput = document.getElementById('sellInput');
-
- const sellList = document.getElementById('sellList');
-
- const buyList = document.getElementById('buyList');
-
- const product = sellInput.value.trim();
-
- if (product !== '') {
-
- const listItem = document.createElement('li');
-
- listItem.textContent = product;
-
- const buyButton = document.createElement('button');
-
- buyButton.textContent = 'Buy';
-
- buyButton.onclick = function () {
-
- buyList.appendChild(listItem);
-
- listItem.removeChild(buyButton); // Remove the "Buy" button after buying
-};
-
- listItem.appendChild(buyButton);
-
- sellList.appendChild(listItem);
-
- sellInput.value = '';
-
- }
-
-}
-
- </script>
-
-</body>
+</body> 
 
 </html>
