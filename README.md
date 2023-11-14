@@ -1,299 +1,112 @@
 <!DOCTYPE html>
-
-<html lang=” en”>
-
+<html lang="en">
 <head>
-
-<meta charset=” UTF-8”>
-
-<meta name=”viewport” content=”width=device-width, initial-scale=1.0”>
-
-<link rel=”stylesheet” type=”text/css” href=”styles.css”>
-
-<title>Project Management Dashboard</title>
-
+	<meta charset="UTF-8">
+	<meta name="viewport" content=
+		"width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href=
+"https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+	crossorigin="anonymous">
+	<script src="app.js"></script>
+	<title>To Do List</title>
 </head>
-
 <body>
-
-<header>
-
-<h1>Project Management Dashboard</h1>
-
+	<header class="bg-success text-white p-5">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12 col-md-12 col-sm-12">
+					<font face="Comic sans MS"
+						size="11" color="black">
+						<strong>ToDo List</strong>
+					</font>		
+				</div>
+			</div>
+		</div>
 </header>
-
-<main>
-
-<section id=”task-list”>
-
-<h2>Task List</h2>
-
-<div class=”task-card”>
-
-<h3>Task 1</h3>
-
-<p>Description of Task 1.</p>
-
-<div class=”status”>
-<span>Status: </span>
-
-<select class=”status-select”>
-
-<option value=”Pending”>Pending</option>
-
-<option value=”InProgress”>InProgress</option>
-
-<option value=”Completed”>Completed</option>
-
-</select>
-
-</div>
-
-</div>
-
-</section>
-
-<section id=”add-task”>
-
-<h2>Add New Task</h2>
-
-<div class=”task-title”>
-
-<input type=”text” id=”task-title” placeholder=”Task Title”></div>
-
-<div class=”task-description”>
-
-<textarea id=”task-description” placeholder=”Task Description”></textarea></div>
-
-<button id=”add-button”>Add Task</button>
-
-</section>
-
-</main>
-
-<footer>
-
-<p>&copy; 2023 Project Management Dashboard</p>
-
-</footer>
-
-<script src=”script.js”></script>
-
+	<div class="container mt-3">
+		<h2>Add Items</h2>
+		<label id="lblsuccess" class="text-success"
+				style="display: none;">
+		</label>
+		<form id="addForm">
+			<div class="row">
+				<div class="col-lg-7 col-md-7 col-sm-7">
+					<input type="text" onkeyup="toggleButton(this, 'submit')"
+						class="form-control" id="item">
+				</div>
+				<div class="col-lg-5 col-md-5 col-sm-5">
+				<input type="submit" class="btn btn-dark"
+						id="submit" value="Submit" disabled>
+				</div>
+			</div>
+		</form>
+		<h3 class="mt-4">Tasks</h3>
+		<form id="addForm">
+			<ul class="list-group" id="items"></ul>
+		</form>
+	</div>
 </body>
-
 </html>
-body {
+window.onload = () => {
+	const form1 = document.querySelector("#addForm");
+	let items = document.getElementById("items");
+	let submit = document.getElementById("submit");
+	let editItem = null;
+	form1.addEventListener("submit", addItem);
+	items.addEventListener("click", removeItem);
+};
+function addItem(e) {
+	e.preventDefault();
 
-Font-family: Arial, sans-serif;
-
-Margin: 0;
-Padding: 0;
-
-background-color: #f0f0f0;
-
+	if (submit.value != "Submit") {
+		console.log("Hello");
+		editItem.target.parentNode.childNodes[0].data=document.getElementById("item").value;
+		submit.value = "Submit";
+		document.getElementById("item").value = "";
+		document.getElementById("lblsuccess").innerHTML= "Text edited successfully";
+		document.getElementById("lblsuccess").style.display = "block";
+		setTimeout(function() {
+			document.getElementById("lblsuccess").style.display = "none";
+		}, 3000);
+		return false;}
+	let newItem = document.getElementById("item").value;
+	if (newItem.trim() == "" || newItem.trim() == null)
+		return false;
+	else
+		document.getElementById("item").value = "";
+	let li = document.createElement("li");
+	li.className = "list-group-item";
+	let deleteButton = document.createElement("button");
+	deleteButton.className ="btn-danger btn btn-sm float-right delete";
+	deleteButton.appendChild(document.createTextNode("Delete"));
+	let editButton = document.createElement("button");
+	editButton.className ="btn-success btn btn-sm float-right edit"
+	editButton.appendChild(document.createTextNode("Edit"));
+	li.appendChild(document.createTextNode(newItem));
+	li.appendChild(deleteButton);
+	li.appendChild(editButton);
+	items.appendChild(li);
 }
-
-header {
-
-background-color: #333;
-
-color: white;
-
-padding: 20px;
-
-text-align: center;
-
+function removeItem(e) {
+e.preventDefault();
+	if (e.target.classList.contains("delete")) {
+		if (confirm("Are you Sure?")) {
+			let li = e.target.parentNode;
+			items.removeChild(li);
+			document.getElementById("lblsuccess").innerHTML
+				= "Text deleted successfully";
+			document.getElementById("lblsuccess").style.display = "block"
+			setTimeout(function() {
+				document.getElementById("lblsuccess").style.display = "none";
+			}, 3000);
+		}}
+	if (e.target.classList.contains("edit")) {
+		document.getElementById("item").value =
+			e.target.parentNode.childNodes[0].data;
+		submit.value = "EDIT";
+		editItem = e;
+	}}
+function toggleButton(ref, btnID) {
+	document.getElementById(btnID).disabled = false;
 }
-
-main {
-
-max-width: 800px;
-
-margin: 0 auto;
-
-padding: 20px;
-
-}
-
-.task-card {
-
-border: 1px solid #ccc;
-
-padding: 10px;
-
-margin: 10px 0;
-
-border-radius: 5px;
-
-}
-
-.status-select {
-
-background-color: #fff;
-
-color: #333;
-
-border: 1px solid #ccc;
-
-padding: 5px;
-
-border-radius: 5px;
-
-}
-
-#add-task {
-background-color: white;
-
-border-radius: 5px;
-
-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-
-padding: 20px;
-
-}
-
-#add-button {
-
-background-color: #007bff;
-
-color: white;
-
-border: none;
-
-padding: 5px 10px;
-
-border-radius: 5px;
-
-cursor: pointer;
-
-}
-
-.task-title{
-
-padding:5px;
-
-border-radius:5px;
-
-}
-
-.task-description{
-
-padding:5px;
-
-border-radius:5px;
-
-}
-
-const tasks = [
-
-{title: "TASK 1 - Research paper on Artificial Intelligence", description: "Write a research paper 
-
-exploring the benefits and challenges of Artificial Intelligence", status: "Pending"},
-
-{title: "TASK 2 - Seminar presentation on Quantum Computing", description: "Research, prepare and 
-
-deliver a seminar on the principles, advancement and potential applications of Quantum Computing", 
-
-status: "InProgress"},
-];
-
-// Function to render the task list
-
-function renderTaskList() {
-
-const taskList = document.getElementById(“task-list”);
-
-// Clear the existing task list
-
-taskList.innerHTML = “ ”;
-
-// Loop through tasks and create task cards
-
-tasks.forEach((task, index) => {
-
-const taskCard = document.createElement(“div”);
-
-taskCard.className = “task-card”;
-
-taskCard.innerHTML = `
-
-<h3>${task.title}</h3>
-
-<p>${task.description}</p>
-
-<div class=”status”>
-
-<span>Status: </span>
-
-<select class=”status-select” data-index=”${index}”>
-
-<option value=”Pending” ${task.status === “Pending” ? “selected” : “”}>Pending</option>
-
-<option value=”InProgress” ${task.status === “InProgress” ? “selected” : “”}>InProgress</option>
-
-<option value=”Completed” ${task.status === “Completed” ? “selected” : “”}>Completed</option>
-
-</select>
-
-</div>
-
-`;
-
-taskList.appendChild(taskCard);
-
-});
-
-// Add event listeners to status selects
-
-const statusSelects = document.querySelectorAll(“.status-select”);
-
-statusSelects.forEach((select) => {
-
-select.addEventListener(“change”, updateTaskStatus);
-});
-
-}
-
-// Function to update task status
-
-function updateTaskStatus(event) {
-
-const index = event.target.getAttribute(“data-index”);
-
-const newStatus = event.target.value;
-
-tasks[index].status = newStatus;
-
-renderTaskList(); // Re-render the task list to reflect the updated status
-
-}
-
-// Function to add a new task
-
-function addNewTask() {
-
-const taskTitle = document.getElementById(“task-title”).value;
-
-const taskDescription = document.getElementById(“task-description”).value;
-
-if (taskTitle && taskDescription) {
-
-atsks.push({ title: taskTitle, description: taskDescription, status: “Pending” });
-
-renderTaskList(); // Re-render the task list to include the new task
-
-document.getElementById(“task-title”).value = “”; // Clear input
-
-document.getElementById(“task-description”).value = “”; // Clear input
-
-}
-
-}
-
-// Add event listener to the “Add Task” button
-
-document.getElementById(“add-button”).addEventListener(“click”, addNewTask);
-
-// Initial rendering of the task list
-
-renderTaskList();
